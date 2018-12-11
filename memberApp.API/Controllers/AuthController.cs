@@ -69,7 +69,8 @@ namespace memberApp.API.Controllers
             };
             var tokenHandler = new JwtSecurityTokenHandler ();
             var token = tokenHandler.CreateToken (tokenDescriptor);
-            return Ok (new {
+            return Ok (new 
+            {
                 token = tokenHandler.WriteToken(token)
             });
         }
