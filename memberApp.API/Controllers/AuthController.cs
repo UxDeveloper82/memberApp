@@ -10,10 +10,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace memberApp.API.Controllers {
+namespace memberApp.API.Controllers 
+{
     [Route ("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase {
+    public class AuthController : ControllerBase 
+    {
         private readonly IAuthRepository _repo;
         private readonly IConfiguration _config;
         public AuthController (IAuthRepository repo, IConfiguration config) 
@@ -24,13 +26,17 @@ namespace memberApp.API.Controllers {
         }
 
         [HttpPost ("register")]
-        public async Task<IActionResult> Register (UserForRegisterDto userForRegisterDto) {
-            userForRegisterDto.Username = userForRegisterDto.Username.ToLower ();
+        public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto) 
+        {
+            // validate request 
 
-            if (await _repo.UserExists (userForRegisterDto.Username))
+            userForRegisterDto.Username = userForRegisterDto.Username.ToLower();
+
+            if (await _repo.UserExists(userForRegisterDto.Username))
                 return BadRequest ("Username already exists");
 
-            var userToCreate = new User {
+            var userToCreate = new User 
+            {
                 Username = userForRegisterDto.Username
             };
 
@@ -64,7 +70,7 @@ namespace memberApp.API.Controllers {
             var tokenHandler = new JwtSecurityTokenHandler ();
             var token = tokenHandler.CreateToken (tokenDescriptor);
             return Ok (new {
-                token = tokenHandler.WriteToken (token)
+                token = tokenHandler.WriteToken(token)
             });
         }
     }
